@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TO DO</title>
+        <style>
+
+        </style>
+    </head>
+    <body>
+        <p>Привіт! Керуй своїми справами!</p>
+        <button id="add-new">Додати завдання</button>
+        <form id="item-form">
+            <input id="description" type="text" name="task" placeholder="Опишіть завдання">
+            <button id="save-item">Зберегти</button>
+            <button id="discard-form">Відмінити</button>
+        </form>
+        <ul id="task-list">
+
+        </ul>
+        <script>
+            const form = document.getElementById('item-form');
+            form.style.display = 'none';
+            let taskId = 1;
+
+            document.getElementById('add-new').addEventListener('click', (e) => {
+                e.preventDefault();
+                form.style.display = 'block';
+            });
+
+            document.getElementById('discard-form').addEventListener('click', (e) => {
+                e.preventDefault();
+                form.style.display = 'none';
+            });
+
+            document.getElementById('save-item').addEventListener('click', (e) => {
+                e.preventDefault();
+                const input = document.getElementById('description')
+                addTask({
+                    id: taskId++,
+                    description: input.value,
+                });
+                input.value = '';
+                form.style.display = 'none';
+            });
+            
+            document.getElementById('task-list').addEventListener('click', (e) => {
+                if(e.target.tagName != 'BUTTON'){
+                    return;
+                }         
+                let li = e.target.parentElement;
+                li.style.textDecorationLine = 'line-through';
+                let button = li.querySelectorAll('button')[0];
+                button.remove();
+            });
+
+            function addTask(task){
+                const ul = document.getElementById('task-list');
+                const li = document.createElement('li');
+                li.innerText = "№" + task.id + " | " + task.description + '\t';
+                const button = document.createElement('button');
+                button.innerText = 'Виконано';
+                li.appendChild(button);
+                ul.appendChild(li);
+            }
+        </script>
+    </body>
+</html>
